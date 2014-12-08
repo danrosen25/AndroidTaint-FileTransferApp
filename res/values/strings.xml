@@ -2,7 +2,20 @@
 <resources>
 
     <string name="app_name">Taint File Transfer App</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="tfservice">Taint File Service</string>
+    <string name="download">Download</string>
+    <string name="localInfo">Local Info</string>
+    <string name="severAddress">localhost</string>
+    <string name="serverPort">9999</string>
+    <string name="refresh">Refresh</string>
+    <string name="downloadFile">Cleant.txt</string>
+    <string name="serverFiles">Press Refresh</string>
+    <string name="clientFiles">Press Refresh</string>
+    <string name="availableList">Available For Download</string>
+    <string name="downloadedList">Downloaded Files</string>
+    <string name="remoteInfo">Remote Info</string>
+    <string name="update">Update</string>
 
 </resources>

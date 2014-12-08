@@ -1,16 +1,164 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="me.captaindan.taintfiletransferapp.MainActivity" >
+    tools:context=".MainActivity" >
+
+      <Button
+        android1:id="@+id/start_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentTop="true"
+        android1:onClick="startTaintFileService"
+        android1:text="@string/start" />
+
+    <Button
+        android1:id="@+id/stop_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
+        android1:layout_alignParentTop="true"
+        android1:onClick="stopTaintFileService"
+        android1:text="@string/stop" />  
+    
+	<EditText
+	    android1:id="@+id/serverAddress_text"
+	    android1:layout_width="wrap_content"
+	    android1:layout_height="wrap_content"
+	    android1:layout_alignParentStart="true"
+	    android1:layout_alignParentLeft="true"
+	    android1:layout_alignEnd="@+id/download_label"
+	    android1:layout_alignRight="@+id/download_label"
+	    android1:layout_below="@+id/start_button"
+	    android1:ems="10"
+	    android1:inputType="text"
+	    android1:text="@string/severAddress" >
+
+        <requestFocus />
+    </EditText>
+    
+    <EditText
+        android1:id="@+id/serverPort_text"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/start_button"
+        android1:layout_toStartOf="@+id/updateServer_button"
+        android1:layout_toLeftOf="@+id/updateServer_button"
+        android1:layout_toEndOf="@+id/serverAddress_text"
+        android1:layout_toRightOf="@+id/serverAddress_text"
+        android1:ems="10"
+        android1:inputType="number"
+        android1:text="@string/serverPort" />
+    
+	<Button
+	    android1:id="@+id/updateServer_button"
+	    android1:layout_width="wrap_content"
+	    android1:layout_height="wrap_content"
+	    android1:layout_alignBottom="@+id/serverPort_text"
+	    android1:layout_alignParentEnd="true"
+	    android1:layout_alignParentRight="true"
+	    android1:layout_below="@+id/start_button"
+	    android1:onClick="updateServerAddress"
+	    android1:text="@string/update" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android1:id="@+id/download_label"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/serverAddress_text"
+        android1:text="@string/downloadedList"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <TextView
+        android1:id="@+id/clientFolder_text"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/download_label"
+        android1:text="@string/clientFiles" />
+
+    <TextView
+        android1:id="@+id/available_label"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/clientFolder_text"
+        android1:text="@string/availableList"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android1:id="@+id/serverFolder_text"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/available_label"
+        android1:text="@string/serverFiles" />
+
+    <Button
+        android1:id="@+id/refresh_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:layout_below="@+id/serverFolder_text"
+        android1:onClick="refreshPress"
+        android1:text="@string/refresh" />
+
+	<EditText
+        android1:id="@+id/downloadFile_text"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/remoteInfo_button"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:ems="10"
+        android1:inputType="text"
+        android1:text="@string/downloadFile" />
+    
+	<Button
+        android1:id="@+id/localInfo_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_alignParentStart="true"
+        android1:layout_alignParentLeft="true"
+        android1:onClick="localInfoPress"
+        android1:text="@string/localInfo" />
+    
+    <Button
+        android1:id="@+id/remoteInfo_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_centerHorizontal="true"
+        android1:onClick="remoteInfoPress"
+        android1:text="@string/remoteInfo" />
+
+    <Button
+        android1:id="@+id/download"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentBottom="true"
+        android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
+        android1:onClick="downloadPress"
+        android1:text="@string/download" />
+    
 </RelativeLayout>

@@ -7,6 +7,7 @@
     <string name="download">Download</string>
     <string name="localInfo">Local Info</string>
     <string name="severAddress">localhost</string>
+    <string name="stop">Stop</string>
     <string name="serverPort">9999</string>
     <string name="refresh">Refresh</string>
     <string name="downloadFile">Clean.txt</string>
@@ -18,5 +19,9 @@
     <string name="update">Update</string>
     <string name="myAddress">My IP Address</string>
     <string name="myPort">9999</string>
+    <string name="allowTaint">Allow Taint</string>
+    <string name="serverInfo">Server</string>
+    <string name="allow">Allow</string>
+    <string name="block">Block</string>
 
 </resources>

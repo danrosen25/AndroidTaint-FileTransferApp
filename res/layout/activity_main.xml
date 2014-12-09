@@ -148,11 +148,10 @@
         android1:id="@+id/myAddress_text"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_alignBottom="@+id/start_button"
         android1:layout_alignParentLeft="true"
         android1:layout_alignParentStart="true"
-        android1:layout_toStartOf="@+id/myPort_text"
-        android1:layout_toLeftOf="@+id/myPort_text"
+        android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
         android1:text="@string/myAddress"
         android1:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -161,8 +160,10 @@
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_alignBottom="@+id/start_button"
-        android1:layout_toLeftOf="@+id/start_button"
-        android1:layout_toStartOf="@+id/start_button"
+        android1:layout_toLeftOf="@+id/allowTaint_toggle"
+        android1:layout_toEndOf="@+id/serverInfo"
+        android1:layout_toRightOf="@+id/serverInfo"
+        android1:layout_toStartOf="@+id/allowTaint_toggle"
         android1:ems="5"
         android1:imeOptions="actionDone"
         android1:inputType="number"
@@ -172,10 +173,42 @@
         android1:id="@+id/start_button"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
-        android1:layout_alignParentEnd="true"
-        android1:layout_alignParentRight="true"
-        android1:layout_alignParentTop="true"
+        android1:layout_toLeftOf="@+id/stop_button"
+        android1:layout_toStartOf="@+id/stop_button"
+        android1:layout_below="@+id/myAddress_text"
         android1:onClick="startTaintFileService"
         android1:text="@string/start" />
+
+    <Button
+        android1:id="@+id/stop_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+		android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
+        android1:layout_below="@+id/myAddress_text"
+        android1:onClick="stopTaintFileService"
+        android1:text="@string/stop" />
+
+    <ToggleButton
+        android1:id="@+id/allowTaint_toggle"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/start_button"
+        android1:layout_below="@+id/myAddress_text"
+        android1:layout_toLeftOf="@+id/start_button"
+        android1:layout_toStartOf="@+id/start_button"
+        android1:text="@string/allowTaint"
+        android1:textOff="@string/block"
+        android1:textOn="@string/allow" />
+
+    <TextView
+        android1:id="@+id/serverInfo"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/start_button"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentStart="true"
+        android1:text="@string/serverInfo"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
     
 </RelativeLayout>

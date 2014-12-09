@@ -18,12 +18,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 public class MainActivity extends Activity {
 	TaintClient client;
 	String myDownloadPath;
 	String mySharedPath;
+	Intent taintFileServiceIntent;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +46,21 @@ public class MainActivity extends Activity {
     }
     
     public void startTaintFileService(View view){
-    	Intent i = new Intent(this, TaintFileService.class);
-    	i.putExtra("mySharedPort", Integer.toString(getMyPort()));
-    	i.putExtra("mySharedPath", mySharedPath);
-    	startService(i);
+    	taintFileServiceIntent = new Intent(this, TaintFileService.class);
+    	taintFileServiceIntent.putExtra("mySharedPort", Integer.toString(getMyPort()));
+    	taintFileServiceIntent.putExtra("mySharedPath", mySharedPath);
+    	taintFileServiceIntent.putExtra("allowTaintTransfer", getAllowTaint());
+    	startService(taintFileServiceIntent);
     	((EditText) findViewById(R.id.myPort_text)).setEnabled(false);
-		Toast.makeText(this.getApplicationContext(), "Server Started\n\tPort: "+getMyPort()+"\n\tShared: "+mySharedPath, Toast.LENGTH_SHORT).show();
+    	((ToggleButton) findViewById(R.id.allowTaint_toggle)).setEnabled(false);
+		Toast.makeText(this.getApplicationContext(), "Server Started\n\tPort: "+getMyPort()+"\n\tShared: "+mySharedPath+"\n\tAllow Taint: "+getAllowTaint(), Toast.LENGTH_SHORT).show();
+    }
+    
+    public void stopTaintFileService(View view){
+    	stopService(taintFileServiceIntent);
+    	((EditText) findViewById(R.id.myPort_text)).setEnabled(true);
+    	((ToggleButton) findViewById(R.id.allowTaint_toggle)).setEnabled(true);
+		Toast.makeText(this.getApplicationContext(), "Server Stopped\n\tPort: "+getMyPort()+"\n\tShared: "+mySharedPath, Toast.LENGTH_SHORT).show();
     }
     
     public void updateServerAddress(View view){
@@ -180,5 +191,10 @@ public class MainActivity extends Activity {
     
     private String getServerAddress(){
     	return ((EditText) findViewById(R.id.serverAddress_text)).getText().toString();
+    }
+    
+    private String getAllowTaint(){
+    	if(((ToggleButton) findViewById(R.id.allowTaint_toggle)).isChecked()) return "true";
+    	return "false";
     }
 }

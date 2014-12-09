@@ -13,10 +13,12 @@ public class TaintServer {
 	private ObjectInputStream inFromClient;
 	private Directory sharedDir;
 	private boolean shutdown;
+	private boolean allowTaintTransfer;
 	
-	public TaintServer(int serverPort,String sharePath) {
+	public TaintServer(int serverPort,String sharePath,boolean allowTaintTransfer) {
 		shutdown = false;
 		sharedDir = new Directory(sharePath);
+		this.allowTaintTransfer = allowTaintTransfer;
 		try{
 			listenSocket = new ServerSocket(serverPort);
 		}catch(IOException e){
@@ -43,14 +45,8 @@ public class TaintServer {
 					case ControlMessage.message:
 						response = server_message(control.getMessage());
 						break;
-					case ControlMessage.shutdown:
-						response = server_shutdown();
-						break;
 					case ControlMessage.finfo:
 						response = sever_finfo(control.getFilename());
-						break;
-					case ControlMessage.cd:
-						response = server_cd(control.getDir());
 						break;
 					default:
 						response = "Unknown or unimplemented request";
@@ -80,6 +76,14 @@ public class TaintServer {
 				return "File does not exist: "+filename;
 			} catch (IOException e) {
 				return "File does not exist: "+filename;
+			}
+		}
+		if(!this.allowTaintTransfer && file.isTainted()){
+			try {
+				outToClient.writeObject(new ControlMessage(ControlMessage.error,ControlMessage.messageParam("Tainted File Transmission Blocked")));
+				return "Taint File Transfer Blocked: "+filename;
+			} catch (IOException e) {
+				return "Taint File Transfer Blocked: "+filename;
 			}
 		}
 		
@@ -137,7 +141,7 @@ public class TaintServer {
 		
 	}
 	
-	private String server_shutdown() {
+	public String server_shutdown() {
 		shutdown = true;
 		try {
 			listenSocket.close();
@@ -147,7 +151,7 @@ public class TaintServer {
 		}
 	}
 	
-	private String server_cd(String newpath){
+	public String server_cd(String newpath){
 		sharedDir.newDirectory(newpath);
 		return "Directory changed to "+newpath;
 	}

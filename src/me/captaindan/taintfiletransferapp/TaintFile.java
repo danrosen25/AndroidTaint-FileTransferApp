@@ -143,4 +143,9 @@ public class TaintFile extends File {
 			Log.e("addTaintExisting","Cannot access file.");
 		}
 	}
+	
+	public boolean isTainted(){
+	    if(this.getTaintInt() == TAINT_CLEAR) return false;
+	    return true;
+	}
 }

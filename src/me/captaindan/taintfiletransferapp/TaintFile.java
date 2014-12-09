@@ -22,25 +22,25 @@ public class TaintFile extends File {
 	/**
 	 * 
 	 */
-    public static final int TAINT_CLEAR         = 0x00000000; // 0		AAAAAA==
-    public static final int TAINT_LOCATION      = 0x00000001; // 1		AAAAAQ==
-    public static final int TAINT_CONTACTS      = 0x00000002; // 2		AAAAAg==
-    public static final int TAINT_MIC           = 0x00000004; // 4		AAAABA==
-    public static final int TAINT_PHONE_NUMBER  = 0x00000008; // 8		AAAACA==
-    public static final int TAINT_LOCATION_GPS  = 0x00000010; // 16		AAAAEA==
-    public static final int TAINT_LOCATION_NET  = 0x00000020; // 32		AAAAIA==
-    public static final int TAINT_LOCATION_LAST = 0x00000040; // 64		AAAAQA==
-    public static final int TAINT_CAMERA        = 0x00000080; // 128	AAAAgA==
-    public static final int TAINT_ACCELEROMETER = 0x00000100; // 256	AAABAA==
-    public static final int TAINT_SMS           = 0x00000200; // 512	AAACAA==
-    public static final int TAINT_IMEI          = 0x00000400; // 1024	AAAEAA==
-    public static final int TAINT_IMSI          = 0x00000800; // 2048	AAAIAA==
-    public static final int TAINT_ICCID         = 0x00001000; // 4096	AAAQAA==
-    public static final int TAINT_DEVICE_SN     = 0x00002000; // 8192	AAAgAA==
-    public static final int TAINT_ACCOUNT       = 0x00004000; // 16384 	AABAAA==
-    public static final int TAINT_HISTORY       = 0x00008000; // 32768	AACAAA==
-	public static final int TAINT_TFTACUSTOM	= 0x10000000;
-    public static final int TAINT_FAILURE		= 0x20000000;
+    public static final int TAINT_CLEAR         = 0x00000000; // 0		AAAAAA==	0x00000000
+    public static final int TAINT_LOCATION      = 0x00000001; // 1		AAAAAQ==	0x01000000
+    public static final int TAINT_CONTACTS      = 0x00000002; // 2		AAAAAg==	0x02000000
+    public static final int TAINT_MIC           = 0x00000004; // 4		AAAABA==	0x04000000
+    public static final int TAINT_PHONE_NUMBER  = 0x00000008; // 8		AAAACA==	0x08000000
+    public static final int TAINT_LOCATION_GPS  = 0x00000010; // 16		AAAAEA==	0x10000000
+    public static final int TAINT_LOCATION_NET  = 0x00000020; // 32		AAAAIA==	0x20000000
+    public static final int TAINT_LOCATION_LAST = 0x00000040; // 64		AAAAQA==	0x40000000
+    public static final int TAINT_CAMERA        = 0x00000080; // 128	AAAAgA==	0x80000000
+    public static final int TAINT_ACCELEROMETER = 0x00000100; // 256	AAABAA==	0x00010000
+    public static final int TAINT_SMS           = 0x00000200; // 512	AAACAA==	0x00020000
+    public static final int TAINT_IMEI          = 0x00000400; // 1024	AAAEAA==	0x00040000
+    public static final int TAINT_IMSI          = 0x00000800; // 2048	AAAIAA==	0x00080000
+    public static final int TAINT_ICCID         = 0x00001000; // 4096	AAAQAA==	0x00100000
+    public static final int TAINT_DEVICE_SN     = 0x00002000; // 8192	AAAgAA==	0x00200000
+    public static final int TAINT_ACCOUNT       = 0x00004000; // 16384 	AABAAA==	0x00400000
+    public static final int TAINT_HISTORY       = 0x00008000; // 32768	AACAAA==	0x00800000
+	public static final int TAINT_TFTACUSTOM	= 0x10000000; //					0x00000010
+    public static final int TAINT_FAILURE		= 0x20000000; //					0x00000020
     
 	public TaintFile(File parent, String child) {
 		super(parent, child);
@@ -122,7 +122,7 @@ public class TaintFile extends File {
 	public void addTaint(int tvalue){
 		FileOutputStream fout;
 		try {
-			fout = new FileOutputStream(this);
+			fout = new FileOutputStream(this, true);
 			FileDescriptor fd = fout.getFD();
 			try{
 				Method method = fd.getClass().getMethod("getDescriptor");
@@ -130,17 +130,17 @@ public class TaintFile extends File {
 				int fdInt =(Integer) method.invoke(fd); 
 				Taint.addTaintFile(fdInt, tvalue);
 			}catch (NoSuchMethodException e){
-
+				Log.e("addTaintExisting","NoSuchMethodException");
 			} catch (IllegalArgumentException e){
-
+				Log.e("addTaintExisting","IllegalArgumentException");
 			} catch (IllegalAccessException e){
-
+				Log.e("addTaintExisting","IllegalAccessException");
 			} catch (InvocationTargetException e){
-
+				Log.e("addTaintExisting","InvocationTargetException");
 			}
 			fout.close();
 		} catch (IOException e) {
-
-		} 
+			Log.e("addTaintExisting","Cannot access file.");
+		}
 	}
 }

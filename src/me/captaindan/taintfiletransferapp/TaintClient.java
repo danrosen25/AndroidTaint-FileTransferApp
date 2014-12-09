@@ -23,7 +23,8 @@ public class TaintClient
 	
 	private void connect() throws IOException
 	{
-		this.mySocket = new Socket(serverName, serverPort);
+		this.mySocket = new Socket();
+		mySocket.connect(new InetSocketAddress(serverName,serverPort),3000);
 		inFromServer = new ObjectInputStream(mySocket.getInputStream());
 		outToServer = new ObjectOutputStream(mySocket.getOutputStream());
 	}
@@ -31,7 +32,6 @@ public class TaintClient
 	private void disconnect() {
 		try{
 			mySocket.close();
-
 		}catch(IOException e){
 
 		}
@@ -75,9 +75,9 @@ public class TaintClient
 		}
 	}
 	
-	public String updateServer(String serverName, String serverPort){
+	public String updateServer(String serverName, int serverPort){
 		this.serverName = serverName;
-		this.serverPort = Integer.parseInt(serverPort);
+		this.serverPort = serverPort;
 		return "Server Address Updated";
 	}
 	

@@ -1,7 +1,12 @@
 package me.captaindan.taintfiletransferapp;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Collections;
+import java.util.Enumeration;
+
+import org.apache.http.conn.util.InetAddressUtils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,8 +22,6 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	TaintClient client;
-	int mySharedPort;
-	String myAddress;
 	String myDownloadPath;
 	String mySharedPath;
 	
@@ -26,17 +29,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    	mySharedPort = getMyPort();
     	myDownloadPath = Environment.getExternalStorageDirectory().getPath()+"/Download";
     	mySharedPath = Environment.getExternalStorageDirectory().getPath()+"/Shared";
-        client = new TaintClient("localhost", mySharedPort,myDownloadPath);
+        client = new TaintClient(getServerAddress(), getServerPort(),myDownloadPath);
+        UpdateMyAddress task = new UpdateMyAddress();
+        task.execute();
     }
 
-    private int getMyPort(){
-    	//return Integer.parseInt(((EditText) findViewById(R.id.myPort_text)).getText().toString());
-    	return 9999;
-    }
-    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -46,23 +45,15 @@ public class MainActivity extends Activity {
     
     public void startTaintFileService(View view){
     	Intent i = new Intent(this, TaintFileService.class);
-    	i.putExtra("mySharedPort", mySharedPort);
+    	i.putExtra("mySharedPort", Integer.toString(getMyPort()));
     	i.putExtra("mySharedPath", mySharedPath);
     	startService(i);
-		Toast.makeText(this.getApplicationContext(), "Server Started\n\tPort: "+mySharedPort+"\n\tShared: "+mySharedPath, Toast.LENGTH_SHORT).show();
-    }
-    
-    public void stopTaintFileService(View view){
-    	stopService(new Intent(this,TaintFileService.class));
-		Toast.makeText(this.getApplicationContext(), "Server Stopped.", Toast.LENGTH_SHORT).show();
-    }
-    
-    public void toastUnimplemented(View view){
-		Toast.makeText(this.getApplicationContext(), "Function not implemented", Toast.LENGTH_SHORT).show();
+    	((EditText) findViewById(R.id.myPort_text)).setEnabled(false);
+		Toast.makeText(this.getApplicationContext(), "Server Started\n\tPort: "+getMyPort()+"\n\tShared: "+mySharedPath, Toast.LENGTH_SHORT).show();
     }
     
     public void updateServerAddress(View view){
-    	client.updateServer(((EditText) findViewById(R.id.serverAddress_text)).getText().toString(), ((EditText) findViewById(R.id.serverPort_text)).getText().toString());
+    	client.updateServer(getServerAddress(), getServerPort());
 		Toast.makeText(this.getApplicationContext(), "Server Address Updated.", Toast.LENGTH_SHORT).show();
     }
     
@@ -155,21 +146,39 @@ public class MainActivity extends Activity {
 		}
     }
     
-    private class GetMyAddress extends AsyncTask<Void,Void,String>{
+    private class UpdateMyAddress extends AsyncTask<Void,Void,String>{
 		@Override
 		protected String doInBackground(Void... params) {
-	    	try {
-				return InetAddress.getLocalHost().getHostAddress();
-			} catch (UnknownHostException e) {
+    		try {
+    			NetworkInterface netint = NetworkInterface.getByName("wlan0");
+    			String address = "";
+				Enumeration<InetAddress> inetAddresses = netint.getInetAddresses();
+				for (InetAddress inetAddress : Collections.list(inetAddresses)) {
+					if(!inetAddress.isLoopbackAddress() && InetAddressUtils.isIPv4Address(inetAddress.getHostAddress())) address+=inetAddress.toString();
+		        }
+    			return address;
+			} catch (SocketException e) {
 				return "Cannot Determine Address";
 			}
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			myAddress = result;
+			((TextView) findViewById(R.id.myAddress_text)).setText(result);
 			super.onPostExecute(result);
 		}
 		
+    }
+    
+    private int getMyPort(){
+    	return Integer.parseInt(((EditText) findViewById(R.id.myPort_text)).getText().toString());
+    }
+    
+    private int getServerPort(){
+    	return Integer.parseInt(((EditText) findViewById(R.id.serverPort_text)).getText().toString());
+    }
+    
+    private String getServerAddress(){
+    	return ((EditText) findViewById(R.id.serverAddress_text)).getText().toString();
     }
 }

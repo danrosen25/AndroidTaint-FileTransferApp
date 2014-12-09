@@ -7,38 +7,19 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
-
-      <Button
-        android1:id="@+id/start_button"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentStart="true"
-        android1:layout_alignParentLeft="true"
-        android1:layout_alignParentTop="true"
-        android1:onClick="startTaintFileService"
-        android1:text="@string/start" />
-
-    <Button
-        android1:id="@+id/stop_button"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignParentEnd="true"
-        android1:layout_alignParentRight="true"
-        android1:layout_alignParentTop="true"
-        android1:onClick="stopTaintFileService"
-        android1:text="@string/stop" />  
+    tools:context=".MainActivity" >  
     
 	<EditText
 	    android1:id="@+id/serverAddress_text"
 	    android1:layout_width="wrap_content"
 	    android1:layout_height="wrap_content"
-	    android1:layout_alignParentStart="true"
-	    android1:layout_alignParentLeft="true"
 	    android1:layout_alignEnd="@+id/download_label"
+	    android1:layout_alignParentLeft="true"
+	    android1:layout_alignParentStart="true"
 	    android1:layout_alignRight="@+id/download_label"
 	    android1:layout_below="@+id/start_button"
 	    android1:ems="10"
+	    android1:imeOptions="actionDone"
 	    android1:inputType="text"
 	    android1:text="@string/severAddress" >
 
@@ -50,11 +31,12 @@
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
         android1:layout_below="@+id/start_button"
-        android1:layout_toStartOf="@+id/updateServer_button"
-        android1:layout_toLeftOf="@+id/updateServer_button"
         android1:layout_toEndOf="@+id/serverAddress_text"
+        android1:layout_toLeftOf="@+id/updateServer_button"
         android1:layout_toRightOf="@+id/serverAddress_text"
+        android1:layout_toStartOf="@+id/updateServer_button"
         android1:ems="10"
+        android1:imeOptions="actionDone"
         android1:inputType="number"
         android1:text="@string/serverPort" />
     
@@ -122,15 +104,16 @@
         android1:text="@string/refresh" />
 
 	<EditText
-        android1:id="@+id/downloadFile_text"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_above="@+id/remoteInfo_button"
-        android1:layout_alignParentStart="true"
-        android1:layout_alignParentLeft="true"
-        android1:ems="10"
-        android1:inputType="text"
-        android1:text="@string/downloadFile" />
+	    android1:id="@+id/downloadFile_text"
+	    android1:layout_width="wrap_content"
+	    android1:layout_height="wrap_content"
+	    android1:layout_above="@+id/remoteInfo_button"
+	    android1:layout_alignParentLeft="true"
+	    android1:layout_alignParentStart="true"
+	    android1:ems="10"
+	    android1:imeOptions="actionDone"
+	    android1:inputType="text"
+	    android1:text="@string/downloadFile" />
     
 	<Button
         android1:id="@+id/localInfo_button"
@@ -160,5 +143,39 @@
         android1:layout_alignParentRight="true"
         android1:onClick="downloadPress"
         android1:text="@string/download" />
+
+    <TextView
+        android1:id="@+id/myAddress_text"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/start_button"
+        android1:layout_alignParentLeft="true"
+        android1:layout_alignParentStart="true"
+        android1:layout_toStartOf="@+id/myPort_text"
+        android1:layout_toLeftOf="@+id/myPort_text"
+        android1:text="@string/myAddress"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android1:id="@+id/myPort_text"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/start_button"
+        android1:layout_toLeftOf="@+id/start_button"
+        android1:layout_toStartOf="@+id/start_button"
+        android1:ems="5"
+        android1:imeOptions="actionDone"
+        android1:inputType="number"
+        android1:text="@string/myPort" />
+
+    <Button
+        android1:id="@+id/start_button"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignParentEnd="true"
+        android1:layout_alignParentRight="true"
+        android1:layout_alignParentTop="true"
+        android1:onClick="startTaintFileService"
+        android1:text="@string/start" />
     
 </RelativeLayout>

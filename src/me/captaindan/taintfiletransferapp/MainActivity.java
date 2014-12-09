@@ -54,13 +54,15 @@ public class MainActivity extends Activity {
     	((EditText) findViewById(R.id.myPort_text)).setEnabled(false);
     	((ToggleButton) findViewById(R.id.allowTaint_toggle)).setEnabled(false);
 		Toast.makeText(this.getApplicationContext(), "Server Started\n\tPort: "+getMyPort()+"\n\tShared: "+mySharedPath+"\n\tAllow Taint: "+getAllowTaint(), Toast.LENGTH_SHORT).show();
+        UpdateMyAddress task = new UpdateMyAddress();
+        task.execute();
     }
     
     public void stopTaintFileService(View view){
     	stopService(taintFileServiceIntent);
     	((EditText) findViewById(R.id.myPort_text)).setEnabled(true);
     	((ToggleButton) findViewById(R.id.allowTaint_toggle)).setEnabled(true);
-		Toast.makeText(this.getApplicationContext(), "Server Stopped\n\tPort: "+getMyPort()+"\n\tShared: "+mySharedPath, Toast.LENGTH_SHORT).show();
+		Toast.makeText(this.getApplicationContext(), "Server Stopped", Toast.LENGTH_SHORT).show();
     }
     
     public void updateServerAddress(View view){
